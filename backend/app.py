@@ -1,6 +1,11 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from rag_core import EmbeddingModel, process_and_index_pdfs, search_documents, get_answer_with_mistral
+from backend.rag_core import (
+    EmbeddingModel, 
+    process_and_index_pdfs, 
+    search_documents, 
+    get_answer_with_mistral
+)
 
 # Initialisation FastAPI
 app = FastAPI()
