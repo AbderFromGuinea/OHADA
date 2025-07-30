@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from pymongo import MongoClient
 from loguru import logger
 import pinecone
-import fitz  # PyMuPDF
+# import fitz  # PyMuPDF
 import numpy as np
 import pytesseract
 import cv2
@@ -45,7 +45,7 @@ if not MONGO_URI:
 client = MongoClient(MONGO_URI)
 db = client["rag_database"]
 chunks_collection = db["chunks"]
-
+'''
 # --- Classes et fonctions utilitaires ---
 
 class PDFProcessor:
@@ -301,7 +301,7 @@ def _split_large_chunk(text, max_chunk_size, overlap):
         start = max(start + break_point - overlap, start + 1)
     
     return [chunk for chunk in chunks if chunk.strip()]
-
+'''
 def clean_metadata_for_pinecone(metadata):
     """
     Clean metadata to ensure compatibility with Pinecone requirements.
