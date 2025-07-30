@@ -27,7 +27,7 @@ model = EmbeddingModel("sentence-transformers/distiluse-base-multilingual-cased"
 def startup_event():
     print("🔄 Indexation des PDFs...")
     try:
-        process_and_index_pdfs("./pdfs", model)
+        # process_and_index_pdfs("./pdfs", model)
         print("✅ Indexation réussie")
     except Exception as e:
         print(f"⚠️ Échec indexation : {e}")
