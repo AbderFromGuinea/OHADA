@@ -8,7 +8,7 @@ numpy
 scikit-learn
 
 # Vector DB
-pinecone-client>=3.0.0
+pinecone>=3.0.0
 
 # MongoDB for chunk text storage
 pymongo>=4.7.0
