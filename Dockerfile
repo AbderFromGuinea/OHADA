@@ -1,43 +1,34 @@
-# --------- STAGE 1: Build Dependencies ---------
+# ---------- STAGE 1 : Build & install dependencies ----------
 FROM python:3.10-slim AS builder
 
 WORKDIR /app
 
-# Préinstaller pip et venv
+# Copie uniquement les requirements pour installer les libs
+COPY requirements.txt .
+
+# Installer gcc et les outils nécessaires temporairement
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     build-essential \
-    && python -m venv /opt/venv \
-    && . /opt/venv/bin/activate
+ && pip install --no-cache-dir --upgrade pip \
+ && pip install --no-cache-dir --target=/install -r requirements.txt \
+ && apt-get purge -y --auto-remove gcc build-essential \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/* /root/.cache
 
-# Copier uniquement requirements
-COPY requirements.txt .
-
-# Installer les dépendances
-RUN . /opt/venv/bin/activate && pip install --upgrade pip \
-    && pip install --no-cache-dir -r requirements.txt
-
-# 🧹 Nettoyage : réduire la taille de l'image
-RUN apt-get purge -y --auto-remove gcc build-essential
-
-# --------- STAGE 2: Runtime ---------
+# ---------- STAGE 2 : Image finale propre et légère ----------
 FROM python:3.10-slim
 
-ENV VIRTUAL_ENV=/opt/venv
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-
-# Installer uniquement ce qui est nécessaire pour exécuter
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libglib2.0-0 libsm6 libxext6 libxrender-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-COPY --from=builder /opt/venv /opt/venv
-
 WORKDIR /app
+
+# Copier les dépendances installées depuis le premier stage
+COPY --from=builder /install /usr/local/lib/python3.10/site-packages
+
+# Copier ton projet
 COPY . .
 
-# Exposer le port Railway
+# Exposer le port (utile sur Railway ou autre)
 EXPOSE 8000
 
-# Commande de démarrage
+# Commande de démarrage de l'API
 CMD ["uvicorn", "backend.app:app", "--host", "0.0.0.0", "--port", "8000"]
