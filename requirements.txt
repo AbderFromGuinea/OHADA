@@ -1,7 +1,7 @@
 langchain>=0.2.0
 openai>=1.30.0
 transformers>=4.40.0
-torch>=2.2.0
+torch>=2.1.2
 tqdm
 numpy
 scikit-learn
