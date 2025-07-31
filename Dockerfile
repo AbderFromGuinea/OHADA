@@ -17,6 +17,9 @@ COPY requirements.txt .
 RUN . /opt/venv/bin/activate && pip install --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt
 
+# 🧹 Nettoyage : réduire la taille de l'image
+RUN apt-get purge -y --auto-remove gcc build-essential
+
 # --------- STAGE 2: Runtime ---------
 FROM python:3.10-slim
 
