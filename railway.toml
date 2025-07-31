@@ -1,5 +1,3 @@
-[build]
-builder = "docker"
-
-[deploy]
+[service]
+name = "ohada-backend"
 startCommand = "uvicorn backend.app:app --host 0.0.0.0 --port $PORT"
