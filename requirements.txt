@@ -1,6 +1,6 @@
 langchain>=0.2.0
 openai>=1.30.0
-transformers>=4.40.0
+transformers>=4.37.2
 torch>=2.1.2
 tqdm
 numpy
@@ -10,6 +10,6 @@ pymongo>=4.7.0
 dnspython>=2.3.0
 python-dotenv
 loguru
-sentence-transformers>=2.2.0
+sentence-transformers>=2.2.2
 fastapi
 uvicorn
